@@ -58,7 +58,7 @@ public class GRS {
 		do {
 			System.out.print("~GROOVE RECORD STORE~\n"
 					+ "1. View all Customer/Robots\n"
-					+ "2. Search Artists/Tracks\n"
+					+ "2. Generate Reports\n"
 					+ "3. Transactions\n"
 					+ "4. EDIT MENU\n"
 					+ "Input numerical selection (or 'x' to quit): ");
@@ -76,7 +76,8 @@ public class GRS {
 					ViewCustomerRobot.menu(cin);
 					break;
 				case '2':
-					SearchArtistTrack.menu(cin);
+					/**TODO */
+					// GenerateReports.menu(cin);
 					break;
 				case '3':
 					TransactionMenu.menu(cin);

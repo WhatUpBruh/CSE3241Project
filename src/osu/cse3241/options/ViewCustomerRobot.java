@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-
-import osu.cse3241.utilities.Utilities;
-import osu.cse3241.sql.SQL;
 import osu.cse3241.GRS;
+import osu.cse3241.sql.SQL;
+import osu.cse3241.utilities.Utilities;
 
 public class ViewCustomerRobot {
 	
@@ -50,7 +49,7 @@ public class ViewCustomerRobot {
 	 */
 	
 	/**
-	 * Query all tracks contained in database.
+	 * Query all customers contained in database.
 	 */
 	private static void viewCustomer() {
 		Utilities.placeholder();
@@ -63,14 +62,11 @@ public class ViewCustomerRobot {
 	}
 	
 	/**
-	 * Query all artists contained in database.
+	 * Query all robots contained in database.
 	 */
 	private static void viewRobots() {
 		Utilities.placeholder();
-		/* TODO
-		String sql = null; 
-		SQL.sqlQuery(GRS.conn, sql);
-		*/
+		
 		String sql = "SELECT * FROM ROBOT;";
 		SQL.sqlQuery(GRS.conn, sql);
 	}

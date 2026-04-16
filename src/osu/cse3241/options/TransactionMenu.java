@@ -95,10 +95,24 @@ public class TransactionMenu {
 
     private static void deliveryOfRobots(Scanner cin) {
         Utilities.placeholder();
+		System.out.print("Enter Rental ID: ");
+		int rentalId = cin.nextInt();
+
+		System.out.print("Enter Car ID for delivery: ");
+		int carId = cin.nextInt();
+
+		SQL.deliveryOfRobotsTransaction(rentalId, carId);
     }
 
     private static void pickUpOfRobots(Scanner cin) {
         Utilities.placeholder();
+		System.out.print("Enter Rental ID: ");
+		int rentalId = cin.nextInt();
+
+		System.out.print("Enter Car ID for pickup: ");
+		int carId = cin.nextInt();
+
+		SQL.pickupOfRobotsTransaction(rentalId, carId);
     }
 
 }

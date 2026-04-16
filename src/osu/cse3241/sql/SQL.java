@@ -87,159 +87,9 @@ public class SQL {
     }
     
     
+  
     /**
-     * (PART 5) Create PreparedStatement to search a track by track name.
-     * 
-     * @param sql query for prepared statement
-     * 
-     * @param track_name track name to search by 
-     */
-    public static void ps_SearchTracks(String sql, String track_name){
-    	try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, track_name);
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    	
-    	sqlQuery(GRS.conn, ps);
-    }
-    
-    /**
-     * (PART 5) Create PreparedStatement to search an artist by artist name.
-     * 
-     * @param sql query for prepared statement
-     * 
-     * @param track_name track name to search by 
-     */
-    public static void ps_SearchArtists(String sql, String artist_name){
-    	try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, artist_name);
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    	
-    	sqlQuery(GRS.conn, ps);
-    }
-    
-    /**
-     * (PART 6) Create PreparedStatement to search number of records in stock according to album name.
-     * 
-     * @param sql query for prepared statement
-     * 
-     * @param album_name album name to search by
-     */
-    public static void ps_SearchRecordStockCount(String sql, String album_name) {
-    	/* TODO */
-        try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, album_name);
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    	
-    	sqlQuery(GRS.conn, ps);
-    }
-
-    /**
-     * Adding new customer to the database. 
-     */
-    public static void ps_addCustomer(String sql, String customer_id, String facility_id, String Fname, String Lname, String address, String phone_number, String email, String start_date, String facility_distance, Boolean active_status) {
-	
-        try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, customer_id);
-    		ps.setString(2, facility_id);
-    		ps.setString(3, Fname);
-    		ps.setString(4, Lname);
-    		ps.setString(5, address);
-    		ps.setString(6, phone_number);
-    		ps.setString(7, email);
-    		ps.setString(8, start_date);
-    		ps.setString(9, facility_distance);
-    		ps.setBoolean(10, active_status);
-
-            ps.executeUpdate();
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    	
-    	sqlQuery(GRS.conn, ps);
-    }
-
-
-    /**
-     * Deleting a customer from the database. 
-     */
-    public static void ps_deleteCustomer(String sql, String customer_id) {
-    
-        try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, customer_id);
-
-            ps.executeUpdate();
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Updating a customer's information in the database. 
-     */
-    public static void ps_updateCustomer(String sql, String phone_number, String email, String address, Boolean active_status, String customer_id) {
-    
-        try {
-    		ps = GRS.conn.prepareStatement(sql);
-    		ps.setString(1, phone_number);
-    		ps.setString(2, email);
-    		ps.setString(3, address);
-    		ps.setBoolean(4, active_status);
-    		ps.setString(5, customer_id);
-
-            ps.executeUpdate();
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Adding new robot to the database. 
-     */
-
-    public static void ps_addRobot(String sql, String robot_id, String manufacturer_id, String robot_name, String robot_model, String serial_number, String status, String warehouse, String year, String battery_autonomy, String sensor_suite, String function, String training_level, String warranty_date) {
-    
-        try {
-    		ps = GRS.conn.prepareStatement(sql);
-            ps.setString(1, robot_id);
-    		ps.setString(2, manufacturer_id);
-            ps.setString(3, robot_name);
-            ps.setString(4, robot_model);
-            ps.setString(5, serial_number);
-            ps.setString(6, status);
-            ps.setString(7, warehouse);
-            ps.setString(8, year);
-            ps.setString(9, battery_autonomy);  
-            ps.setString(10, sensor_suite);
-            ps.setString(11, function);
-            ps.setString(12, training_level);
-            ps.setString(13, warranty_date);   
-
-            ps.executeUpdate();
-    	} catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
-
-
-
-
-
-
-    /**
-     * Transaction logic
+     * Transaction logic Menu option 3
      */
 
 
@@ -278,6 +128,9 @@ public class SQL {
         }
     }
 
+    /**
+     * Helper method to insert a new rental and return the generated RentalID.
+     */
     public static int insertRental(int customerId, int robotId, java.sql.Date checkoutDate, java.sql.Date dueDate) throws SQLException {
         String sql = "INSERT INTO Rental (CustomerID, RobotID, CheckoutDate, DueDate, ReturnDate, RentalFee, DamageFee, DailyServiceCost) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = GRS.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -301,6 +154,8 @@ public class SQL {
         }
     }
 
+    /**
+     * Updates the status of a robot in the database.*/
     public static void updateRobotStatus(Connection conn, int robotId, String status) throws SQLException {
         String sql = "UPDATE Robot SET Status = ? WHERE RobotID = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -310,10 +165,13 @@ public class SQL {
         }
     }
 
+
+    /**
+     * Inserts a new dispatch record into the database.
+     */
     public static int insertDispatch(Connection conn, int robotId, int customerId, int rentalId, int carId, java.sql.Date dispatchDate, String dispatchType) throws SQLException {
 
-        String sql = "INSERT INTO Dispatch (RobotID, CustomerID, RentalID, CarID, DispatchDate, DispatchType) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Dispatch (RobotID, CustomerID, RentalID, CarID, DispatchDate, DispatchType) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -338,13 +196,9 @@ public class SQL {
 
 
 
-
-
-
-
-
     /**
      * Transaction for return equipement
+     * Transaction Menu option 2
      */
 
 
@@ -369,6 +223,7 @@ public class SQL {
             return null;
         }
     }
+
 
 
     public static void returnEquipmentTransaction(int rentalId, int carId) {
@@ -418,6 +273,232 @@ public class SQL {
 
 
 
+    /**
+     * Delivery of robots transaction implementation: 
+     * Transaction Menu option 3
+     */
+
+     public static void deliveryOfRobotsTransaction(int rentalId, int carId) {
+        Connection conn = GRS.conn;
+
+        try {
+            conn.setAutoCommit(false);
+
+            // 1. Get robot + customer from rental
+            RentalInfo info = SQL.getRentalInfo(rentalId);
+            if (info == null) {
+                throw new SQLException("Rental not found.");
+            }
+
+            java.sql.Date deliveryDate = new java.sql.Date(System.currentTimeMillis());
+
+            // 2. Insert delivery dispatch
+            SQL.insertDispatch(
+                conn,
+                info.robotId,
+                info.customerId,
+                rentalId,
+                carId,
+                deliveryDate,
+                "DELIVERY"
+            );
+
+            conn.commit();
+            System.out.println("Delivery scheduled successfully!");
+
+        } catch (SQLException e) {
+            try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            System.out.println("Failed to schedule delivery. Transaction rolled back.");
+            System.out.println("SQL Error: " + e.getMessage());
+        } finally {
+            try { conn.setAutoCommit(true); } catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+
+
+    /**
+     * Pick up robots transactions implementation: 
+     * Transaction Menu option 4
+     */
+
+     public static void pickupOfRobotsTransaction(int rentalId, int carId) {
+        Connection conn = GRS.conn;
+
+        try {
+            conn.setAutoCommit(false);
+
+            // 1. Get robot + customer from rental
+            RentalInfo info = SQL.getRentalInfo(rentalId);
+            if (info == null) {
+                throw new SQLException("Rental not found.");
+            }
+
+            java.sql.Date pickupDate = new java.sql.Date(System.currentTimeMillis());
+
+            // 2. Insert pickup dispatch
+            SQL.insertDispatch(
+                conn,
+                info.robotId,
+                info.customerId,
+                rentalId,
+                carId,
+                pickupDate,
+                "PICKUP"
+            );
+
+            conn.commit();
+            System.out.println("Pickup scheduled successfully!");
+
+        } catch (SQLException e) {
+            try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            System.out.println("Failed to schedule pickup. Transaction rolled back.");
+            System.out.println("SQL Error: " + e.getMessage());
+        } finally {
+            try { conn.setAutoCommit(true); } catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+
+
+
+
+    
+
+
+    /**
+     * Adding new customer to the database. 
+     * Menu option 4 Edit menu option 1
+     */
+    public static void ps_addCustomer(String sql, String customer_id, String facility_id, String Fname, String Lname, String address, String phone_number, String email, String start_date, String facility_distance, Boolean active_status) {
+	
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, customer_id);
+    		ps.setString(2, facility_id);
+    		ps.setString(3, Fname);
+    		ps.setString(4, Lname);
+    		ps.setString(5, address);
+    		ps.setString(6, phone_number);
+    		ps.setString(7, email);
+    		ps.setString(8, start_date);
+    		ps.setString(9, facility_distance);
+    		ps.setBoolean(10, active_status);
+
+            ps.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    	
+    	sqlQuery(GRS.conn, ps);
+    }
+
+
+    /**
+     * Deleting a customer from the database. 
+     * Menu option 4 Edit menu option 2
+     */
+    public static void ps_deleteCustomer(String sql, String customer_id) {
+    
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, customer_id);
+
+            ps.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Updating a customer's information in the database. 
+     * Menu option 4 Edit menu option 3
+     */
+    public static void ps_updateCustomer(String sql, String phone_number, String email, String address, Boolean active_status, String customer_id) {
+    
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, phone_number);
+    		ps.setString(2, email);
+    		ps.setString(3, address);
+    		ps.setBoolean(4, active_status);
+    		ps.setString(5, customer_id);
+
+            ps.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Adding new robot to the database. 
+     * Menu option 4 Edit menu option 4
+     */
+
+    public static void ps_addRobot(String sql, String robot_id, String manufacturer_id, String robot_name, String robot_model, String serial_number, String status, String warehouse, String year, String battery_autonomy, String sensor_suite, String function, String training_level, String warranty_date) {
+    
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+            ps.setString(1, robot_id);
+    		ps.setString(2, manufacturer_id);
+            ps.setString(3, robot_name);
+            ps.setString(4, robot_model);
+            ps.setString(5, serial_number);
+            ps.setString(6, status);
+            ps.setString(7, warehouse);
+            ps.setString(8, year);
+            ps.setString(9, battery_autonomy);  
+            ps.setString(10, sensor_suite);
+            ps.setString(11, function);
+            ps.setString(12, training_level);
+            ps.setString(13, warranty_date);   
+
+            ps.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Deleting a robot from the database. 
+     * Menu option 4 Edit menu option 5
+     */
+    public static void ps_deleteRobot(String sql, String robot_id) {
+    
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+    		ps.setString(1, robot_id);
+
+            ps.executeUpdate();
+    	} catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Updating a robot's information in the database. 
+     * Menu option 4 Edit menu option 6
+     */
+    public static void ps_updateRobot(String sql, String robot_name, String robot_model, String serial_number, String status, String warehouse, String year, String battery_autonomy, String sensor_suite, String function, String training_level, String warranty_date, String robot_ID) {
+    
+        try {
+    		ps = GRS.conn.prepareStatement(sql);
+            ps.setString(1, robot_name);
+            ps.setString(2, robot_model);
+            ps.setString(3, serial_number);
+            ps.setString(4, status);
+            ps.setString(5, warehouse);
+            ps.setString(6, year);
+            ps.setString(7, battery_autonomy);  
+            ps.setString(8, sensor_suite);
+            ps.setString(9, function);
+            ps.setString(10, training_level);
+            ps.setString(11, warranty_date);   
+            ps.setString(12, robot_ID);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
     
   

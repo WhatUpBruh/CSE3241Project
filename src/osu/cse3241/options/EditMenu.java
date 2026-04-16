@@ -163,10 +163,46 @@ public class EditMenu {
 
 	private static void deleteRobot(Scanner cin) {
 		Utilities.placeholder();
+		System.out.println("Input Robot ID: ");
+		String robot_id = cin.nextLine();
+
+		String sql = "DELETE FROM ROBOT WHERE RobotID = ?;";
+		SQL.ps_deleteRobot(sql, robot_id);
+
 	}
 
 	private static void updateRobot(Scanner cin) {
 		Utilities.placeholder();
+
+		System.out.println("Input Robot ID: ");
+		String robot_id = cin.nextLine();
+		System.out.println("Input Robot Name: ");
+		String name = cin.nextLine();
+		System.out.println("Input Robot Model: ");
+		String model = cin.nextLine();
+		System.out.println("Input new status: ");
+		System.out.println("Input new Serial Number: ");
+		String serial_number = cin.nextLine();
+		String status = cin.nextLine();
+		System.out.println("Input new warehouse: ");
+		String warehouse = cin.nextLine();
+		System.out.println("Input new year: ");
+		String year = cin.nextLine();
+		System.out.println("Input new battery autonomy: ");
+		String battery_autonomy = cin.nextLine();
+		System.out.println("Input new sensor suite: ");
+		String sensor_suite = cin.nextLine();
+		System.out.println("Input new function: ");
+		String function = cin.nextLine();
+		System.out.println("Input new training level: ");
+		String training_level = cin.nextLine();
+		System.out.println("Input new warranty date: ");
+		String warranty_date = cin.nextLine();
+		
+		String sql = "UPDATE ROBOT SET Status = ?, Warehouse = ?, Year = ?, BatteryAutonomy = ?, SensorSuite = ?, Function = ?, TrainingLevel = ?, Warranty = ? WHERE RobotID = ?;";
+		SQL.ps_updateRobot(sql, name, model, serial_number, status, warehouse, year, battery_autonomy, sensor_suite, function, training_level, warranty_date, robot_id);
+
+
 	}
 	
 }
