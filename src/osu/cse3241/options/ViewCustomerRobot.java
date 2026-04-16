@@ -38,25 +38,14 @@ public class ViewCustomerRobot {
 				break;
 		}
 	}
-	
-	/*
-	 * PART 4:
-	 * Remove the placeholder method and complete one of the following methods:
-	 * 	
-	 * 	viewTracks()
-	 * 	viewArtists()
-	 * 
-	 */
+
 	
 	/**
 	 * Query all customers contained in database.
 	 */
 	private static void viewCustomer() {
 		Utilities.placeholder();
-		/* TODO
-		String sql = null; 
-		SQL.sqlQuery(GRS.conn, sql);
-		*/
+	
 		String sql = "SELECT * FROM CUSTOMER;";
 		SQL.sqlQuery(GRS.conn, sql);	
 	}

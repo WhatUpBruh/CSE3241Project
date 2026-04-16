@@ -77,7 +77,7 @@ public class GRS {
 					break;
 				case '2':
 					/**TODO */
-					// GenerateReports.menu(cin);
+					GenerateReports.menu(cin);
 					break;
 				case '3':
 					TransactionMenu.menu(cin);
